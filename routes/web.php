@@ -21,3 +21,5 @@ Route::get('/', function () {
 Route::get('/', [NewsController::class, 'index']);
 
 Route::get('/berita/{slug}', [NewsController::class, 'show'])->name('news.show');
+
+Route::get('/category/{slug}', [App\Http\Controllers\NewsController::class, 'category'])->name('newsCategory.show');
