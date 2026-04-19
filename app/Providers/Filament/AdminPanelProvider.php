@@ -29,8 +29,10 @@ class AdminPanelProvider extends PanelProvider
             ->login()
             ->brandName('Ruang Berita')
             ->colors([
-                'primary' => Color::Blue,
-            ])
+                'primary' => '#0006FF',])
+            ->brandLogo(asset('images/RB.svg'))// Sesuaikan path logo kamu
+            ->brandLogoHeight('3rem')
+            
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([

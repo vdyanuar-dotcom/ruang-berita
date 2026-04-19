@@ -33,9 +33,9 @@
     <nav class="bg-white shadow-sm sticky top-0 z-50 mb-8">
         <div class="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
             <a href="/">
-                <img src="{{ asset('images/ruangberita.svg') }}" alt="Logo Ruang Berita" class="h-16 w-auto">
+                <img src="{{ asset('images/RB.svg') }}" alt="Logo Ruang Berita" class="h-12 w-auto">
             </a>
-            <a href="/" class="text-gray-600 hover:text-blue-600 font-medium">← Kembali ke Beranda</a>
+            <a href="/" class="text-gray-600 hover:text-[#0006FF] font-medium">← Kembali ke Beranda</a>
         </div>
     </nav>
 
@@ -43,7 +43,7 @@
 
         <article class="lg:w-2/3 bg-white p-6 md:p-10 rounded-2xl shadow-sm">
             <div class="flex items-center gap-3 text-sm mb-4">
-                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-bold uppercase">
+                <span class="bg-blue-100 text-[#0006FF] px-3 py-1 rounded-full font-bold uppercase">
                     {{ $news->newsCategory->title}}
                 </span>
                 <span class="text-gray-400">•</span>
@@ -55,7 +55,7 @@
             </h1>
 
             <div class="flex items-center gap-3 mb-8 pb-8 border-b">
-                <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
+                <div class="w-10 h-10 bg-[#0006FF] rounded-full flex items-center justify-center text-white font-bold">
                     {{ substr($news->author->name ?? 'A', 0, 1) }}
                 </div>
                 <div>
@@ -75,22 +75,22 @@
                 {!! $news->content !!}
             </div>
 
-            <!-- <div class="mt-12 pt-8 border-t flex items-center gap-4">
+            <div class="mt-12 pt-8 border-t flex items-center gap-4">
                 <span class="text-sm font-bold text-gray-400 uppercase">Bagikan:</span>
                 <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">Facebook</button>
                 <button class="bg-sky-400 text-white px-4 py-2 rounded-lg text-sm">Twitter</button>
                 <button class="bg-green-500 text-white px-4 py-2 rounded-lg text-sm">WhatsApp</button>
-            </div> -->
+            </div>
         </article>
 
         <aside class="lg:w-1/3 mt-12 lg:mt-0">
-            <h3 class="text-xl font-bold mb-6 border-l-4 border-blue-600 pl-4 uppercase tracking-wider">Berita Terpopuler</h3>
+            <h3 class="text-xl font-bold mb-6 border-l-4 border-[#0006FF] pl-4 uppercase tracking-wider">Berita Terpopuler</h3>
             <div class="space-y-6">
                 @foreach($relatedNews as $item)
                 <a href="{{ route('news.show', $item->slug) }}" class="flex gap-4 group">
                     <img src="{{ asset('storage/' . $item->thumbnail) }}" class="w-24 h-24 object-cover rounded-lg shrink-0">
                     <div>
-                        <h4 class="font-bold text-gray-800 group-hover:text-blue-600 transition leading-snug">
+                        <h4 class="font-bold text-gray-800 group-hover:text-[#0006FF] transition leading-snug">
                             {{ Str::limit($item->title, 60) }}
                         </h4>
                         <p class="text-xs text-gray-400 mt-2">{{ $item->created_at->diffForHumans() }}</p>
