@@ -34,7 +34,16 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <input type="text" placeholder="Cari berita..." class="border rounded-full px-4 py-1 text-sm focus:outline-blue-500">
+                    <form action="{{ route('news.search') }}" method="GET" class="flex items-center gap-4">
+                        <div class="relative">
+                            <input type="text"
+                                name="search"
+                                value="{{ request('search') }}"
+                                placeholder="Cari berita..."
+                                class="border rounded-full px-4 py-1 text-sm focus:outline-blue-500 w-48 md:w-64">
+                        </div>
+                        <button type="submit" class="hidden">Cari</button>
+                    </form>
                     <a href="/admin/login" class="bg-gradient-to-r from-[#0006FF] to-[#000499] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700">Masuk</a>
                 </div>
             </div>
@@ -79,7 +88,9 @@
             <div class="w-1.5 h-8 rounded-full bg-gradient-to-b from-[#0006FF] to-[#000499]"></div>
 
             <h3 class="text-2xl font-bold ml-4 text-gray-800 tracking-tight">
-                @if(isset($category))
+                @if(isset($searchTitle))
+                {{ $searchTitle }}
+                @elseif(isset($category))
                 Kategori: <span class="text-[#0006FF]">{{ $category->title }}</span>
                 @else
                 Berita <span class="text-[#0006FF]">Terkini</span>
@@ -88,6 +99,12 @@
         </div>
         @endif
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            @if($allNews->isEmpty())
+            <div class="col-span-3 text-center py-20">
+                <p class="text-gray-400">Maaf, berita yang kamu cari tidak ditemukan.</p>
+                <a href="/" class="text-[#0006FF] font-bold mt-4 inline-block underline">Kembali ke Beranda</a>
+            </div>
+            @endif
             @foreach($allNews as $news)
             <div class="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition flex flex-col h-full">
 
@@ -118,6 +135,58 @@
             @endforeach
         </div>
 
+        {{-- Section Berita Lainnya (Hanya satu section saja) --}}
+        @if(isset($listNews) && $listNews->count() > 0)
+        <section class="mt-16 mb-12">
+            <div class="flex items-center gap-3 mb-8">
+                {{-- Aksen Gradasi Biru --}}
+                <div class="w-1.5 h-8 bg-gradient-to-b from-[#0006FF] to-[#000499] rounded-full"></div>
+                <h2 class="text-2xl font-extrabold text-gray-800">Berita <span class="text-[#0006FF]">Lainnya</span></h2>
+            </div>
+
+            <div class="grid grid-cols-1 gap-8">
+                @foreach($listNews as $item)
+                <div class="flex flex-col md:flex-row gap-6 bg-white p-4 rounded-2xl shadow-sm hover:shadow-md transition group border border-gray-50">
+
+                    {{-- Thumbnail Berita --}}
+                    <div class="w-full md:w-80 h-48 flex-shrink-0 overflow-hidden rounded-xl">
+                        <img src="{{ asset('storage/' . $item->thumbnail) }}"
+                            class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                            alt="{{ $item->title }}">
+                    </div>
+
+                    {{-- Konten Berita --}}
+                    <div class="flex flex-col justify-center flex-grow">
+                        <span class="text-[#0006FF] text-[10px] font-black uppercase tracking-widest mb-2">
+                            {{ $item->newsCategory->title ?? 'Umum' }}
+                        </span>
+
+                        <h3 class="text-xl font-bold leading-tight mb-3 group-hover:text-[#0006FF] transition">
+                            <a href="{{ route('news.show', $item->slug) }}">
+                                {{ $item->title }}
+                            </a>
+                        </h3>
+
+                        <p class="text-gray-500 text-sm line-clamp-2 mb-4">
+                            {{ Str::limit(strip_tags($item->content), 180) }}
+                        </p>
+
+                        <div class="mt-auto flex items-center justify-between border-t border-gray-50 pt-4">
+                            <div class="flex items-center gap-2 text-xs text-gray-400">
+                                <span class="font-semibold text-gray-600">Oleh: {{ $item->author->name ?? 'Admin' }}</span>
+                                <span>•</span>
+                                <span>{{ $item->created_at->diffForHumans() }}</span>
+                            </div>
+                            <a href="{{ route('news.show', $item->slug) }}" class="text-[#0006FF] font-bold text-sm hover:underline transition">
+                                Baca Selengkapnya →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </section>
+        @endif
     </main>
 
     <footer class="bg-white border-t mt-12 py-8 text-center text-gray-500 text-sm">

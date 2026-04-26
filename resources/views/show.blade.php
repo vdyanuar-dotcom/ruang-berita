@@ -75,6 +75,27 @@
                 {!! $news->content !!}
             </div>
 
+            <div class="mt-12 pt-8 border-t border-gray-100">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-1.5 h-6 bg-gradient-to-b from-[#0006FF] to-[#000499] rounded-full"></div>
+                    <h3 class="text-xl font-bold text-gray-800">Berita Terkait</h3>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    @foreach($relatedNews as $related)
+                    <a href="{{ route('news.show', $related->slug) }}" class="group">
+                        <div class="aspect-video rounded-lg overflow-hidden mb-3">
+                            <img src="{{ asset('storage/' . $related->thumbnail) }}"
+                                class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        </div>
+                        <h4 class="text-sm font-bold leading-tight group-hover:text-[#0006FF] transition">
+                            {{ Str::limit($related->title, 55) }}
+                        </h4>
+                    </a>
+                    @endforeach
+                </div>
+            </div>
+
             <div class="mt-12 pt-8 border-t flex items-center gap-4">
                 <span class="text-sm font-bold text-gray-400 uppercase">Bagikan:</span>
                 <button class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">Facebook</button>
@@ -85,6 +106,27 @@
 
         <aside class="lg:w-1/3 mt-12 lg:mt-0">
             <h3 class="text-xl font-bold mb-6 border-l-4 border-[#0006FF] pl-4 uppercase tracking-wider">Berita Terpopuler</h3>
+            <div class="mt-6 space-y-6">
+                @foreach($popularNews as $key => $popular)
+                <a href="{{ route('news.show', $popular->slug) }}" class="flex items-start gap-4 group">
+                    <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg bg-gray-50 group-hover:bg-gradient-to-br group-hover:from-[#0006FF] group-hover:to-[#000499] group-hover:text-white transition-all text-gray-400 font-bold text-lg">
+                        {{ $key + 1 }}
+                    </div>
+
+                    <div class="flex-grow">
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-[#0006FF]">
+                            {{ $popular->newsCategory->title }}
+                        </span>
+                        <h4 class="text-sm font-bold leading-snug group-hover:underline decoration-[#0006FF]">
+                            {{ Str::limit($popular->title, 60) }}
+                        </h4>
+                        <p class="text-[10px] text-gray-400 mt-1">
+                            {{ $popular->created_at->diffForHumans() }}
+                        </p>
+                    </div>
+                </a>
+                @endforeach
+            </div>
             <div class="space-y-6">
                 @foreach($relatedNews as $item)
                 <a href="{{ route('news.show', $item->slug) }}" class="flex gap-4 group">
