@@ -105,8 +105,11 @@
         </article>
 
         <aside class="lg:w-1/3 mt-12 lg:mt-0">
-            <h3 class="text-xl font-bold mb-6 border-l-4 border-[#0006FF] pl-4 uppercase tracking-wider">Berita Terpopuler</h3>
-            <div class="mt-6 space-y-6">
+            {{-- BAGIAN 1: BERITA TERPOPULER --}}
+            <h3 class="text-xl font-bold mb-6 border-l-4 border-[#0006FF] pl-4 uppercase tracking-wider">
+                Berita Terpopuler
+            </h3>
+            <div class="space-y-6 mb-12">
                 @foreach($popularNews as $key => $popular)
                 <a href="{{ route('news.show', $popular->slug) }}" class="flex items-start gap-4 group">
                     <div class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-lg bg-gray-50 group-hover:bg-gradient-to-br group-hover:from-[#0006FF] group-hover:to-[#000499] group-hover:text-white transition-all text-gray-400 font-bold text-lg">
@@ -127,20 +130,27 @@
                 </a>
                 @endforeach
             </div>
+
+            {{-- BAGIAN 2: BERITA TERKAIT (Berikan Judul Baru) --}}
+            @if(isset($relatedNews) && $relatedNews->count() > 0)
+            <h3 class="text-xl font-bold mb-6 border-l-4 border-[#0006FF] pl-4 uppercase tracking-wider">
+                Berita Terkait
+            </h3>
             <div class="space-y-6">
                 @foreach($relatedNews as $item)
                 <a href="{{ route('news.show', $item->slug) }}" class="flex gap-4 group">
-                    <img src="{{ asset('storage/' . $item->thumbnail) }}" class="w-24 h-24 object-cover rounded-lg shrink-0">
+                    <img src="{{ asset('storage/' . $item->thumbnail) }}"
+                        class="w-20 h-20 object-cover rounded-lg shrink-0 shadow-sm group-hover:opacity-80 transition">
                     <div>
-                        <h4 class="font-bold text-gray-800 group-hover:text-[#0006FF] transition leading-snug">
-                            {{ Str::limit($item->title, 60) }}
+                        <h4 class="text-sm font-bold text-gray-800 group-hover:text-[#0006FF] transition leading-tight">
+                            {{ Str::limit($item->title, 50) }}
                         </h4>
-                        <p class="text-xs text-gray-400 mt-2">{{ $item->created_at->diffForHumans() }}</p>
+                        <p class="text-[10px] text-gray-400 mt-2">{{ $item->created_at->diffForHumans() }}</p>
                     </div>
                 </a>
                 @endforeach
             </div>
-
+            @endif
         </aside>
 
     </main>

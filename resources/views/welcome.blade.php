@@ -44,7 +44,48 @@
                         </div>
                         <button type="submit" class="hidden">Cari</button>
                     </form>
-                    <a href="/admin/login" class="bg-gradient-to-r from-[#0006FF] to-[#000499] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700">Masuk</a>
+                    <div class="flex items-center gap-4">
+                        @auth
+                        {{-- Tampilan saat User sudah Login --}}
+                        <div class="relative group">
+                            <button class="flex items-center gap-1 text-sm font-bold text-gray-700 py-2 focus:outline-none group-hover:text-[#0006FF]">
+                                Hi, {{ Auth::user()->name }}
+                                <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </button>
+
+                            <div class="absolute right-0 w-48 pt-2 hidden group-hover:block z-50">
+                                <div class="bg-white shadow-xl rounded-xl py-2 border border-gray-100 overflow-hidden shadow-2xl">
+
+                                    {{-- Link Admin Panel (Hanya muncul jika role = 1) --}}
+                                    @if(Auth::user()->role === 1)
+                                    <a href="/admin" class="block px-4 py-2 text-sm text-blue-600 font-bold hover:bg-blue-50 transition">
+                                        Admin Panel
+                                    </a>
+                                    <hr class="border-gray-50 my-1">
+                                    @endif
+
+                                    {{-- Tombol Logout --}}
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition font-medium">
+                                            Keluar
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        @else
+                        {{-- Tampilan saat Belum Login --}}
+                        <a href="{{ route('login') }}" class="text-sm font-medium text-gray-600 hover:text-[#0006FF] transition">
+                            Masuk
+                        </a>
+                        <a href="{{ route('register') }}" class="bg-[#0006FF] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-[#000499] transition shadow-md">
+                            Daftar
+                        </a>
+                        @endauth
+                    </div>
                 </div>
             </div>
         </div>

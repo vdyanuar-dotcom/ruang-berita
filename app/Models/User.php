@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role', // Tambahkan ini
     ];
 
     /**
@@ -42,4 +43,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    // Tambahkan fungsi ini untuk proteksi Filament
+    public function canAccessPanel(\Filament\Panel $panel): bool
+    {
+        // Hanya user dengan role 1 yang bisa buka dashboard admin
+        return $this->role === 1;
+    }
 }

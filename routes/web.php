@@ -25,3 +25,7 @@ Route::get('/berita/{slug}', [NewsController::class, 'show'])->name('news.show')
 Route::get('/category/{slug}', [App\Http\Controllers\NewsController::class, 'category'])->name('newsCategory.show');
 
 Route::get('/search', [NewsController::class, 'search'])->name('news.search');
+
+// ... rute-rute kamu yang lain ...
+
+require __DIR__.'/auth.php';
